@@ -478,7 +478,9 @@ class Ewei_shoppingModuleSite extends WeModuleSite {
 						"goodsid" => $id,
 						"specs" => $newids
 					);
-					$totalstocks+=$a['stock'];
+					if(!empty($data['hasoption'])){
+						$totalstocks+=$a['stock'];
+					}
 					if (empty($get_option_id)) {
 						pdo_insert("shopping_goods_option", $a);
 						$option_id = pdo_insertid();
@@ -678,6 +680,9 @@ class Ewei_shoppingModuleSite extends WeModuleSite {
 							$v['goods_title'] = $good['title'];
 							if ($key == 'createtime') {
 								$html .= date('Y-m-d H:i:s', $v[$key]) . "\t, ";
+							} elseif ($key == 'address') {
+								$address = explode('|', $v[$key]);
+								$html .= $address[0]. " ". $address[3].$address[4].$address[5].$address[6] . "\t, ";
 							} else {
 								$html .= $v[$key] . "\t, ";
 							}
@@ -1524,11 +1529,20 @@ class Ewei_shoppingModuleSite extends WeModuleSite {
 
 		$params['tid'] = $orderid;
 		$params['user'] = $_W['fans']['from_user'];
-		$params['fee'] = $order['price'];
 		$params['title'] = $goodsTitle;
 		$params['ordersn'] = $order['ordersn'];
 		$params['virtual'] = $order['goodstype'] == 2 ? true : false;
-
+		$we7_coupon_info = module_fetch('we7_coupon');
+		if (!empty($we7_coupon_info) && pdo_tableexists('mc_card')) {
+			if (!function_exists('card_discount_fee')) {
+				$params['fee'] = $order['price'];
+			} else {
+				load() -> model('card');
+				$params['fee'] = card_discount_fee($order['price']);
+			}
+		} else {
+			$params['fee'] = $order['price'];
+		}
 		include $this->template('pay');
 	}
 
@@ -1773,6 +1787,9 @@ class Ewei_shoppingModuleSite extends WeModuleSite {
 			if (!empty($fan)) {
 				$fanid = $fan['fanid'];
 			} else {
+				if (empty($_W['openid'])) {
+					$_W['opendi'] = random(28);
+				}
 				$post = array(
 					'uniacid' => $_W['uniacid'],
 					'updatetime' => time(),
@@ -1951,11 +1968,7 @@ class Ewei_shoppingModuleSite extends WeModuleSite {
 				if (!empty($this->module['config']['mobile'])) {
 					load()->model('cloud');
 					cloud_prepare();
-
-					$body = '用户' . $address[0] . ',电话:' . $address[1] . '于' . date('m月d日H:i') . '成功支付订单' . $order['ordersn']
-						. ',总金额' . $order['price'] . '元' . '.' . random(3);
-
-					cloud_sms_send($this->module['config']['mobile'], $body);
+					cloud_sms_send($this->module['config']['mobile'], '800001', array('user' => $address[0], 'mobile' => $address[1], 'datetime' => date('m月d日H:i'), 'order_no' => $order['ordersn'], 'totle' => $order['price']));
 				}
 			}
 
@@ -2159,6 +2172,12 @@ class Ewei_shoppingModuleSite extends WeModuleSite {
 			message('订单已经成功删除！', $redirect, 'success');
 		} else {
 			pdo_update('shopping_order', array('status' => $status), array('id' => $orderId));
+			$order = pdo_get('shopping_order_goods', array('weid' => $_W['uniacid'], 'orderid' => $orderId));
+			$goodid = $order['goodsid'];
+			$good = pdo_get('shopping_goods', array('weid' => $_W['uniacid'], 'id' => $goodid));
+			if ($good['totalcnf'] == 0 && $status == -1) {
+				pdo_update('shopping_goods', array('sales' => $good['sales'] -1),array('weid' => $_W['uniacid'], 'id' => $goodid));
+			}
 			message('订单已经成功取消！', $redirect, 'success');
 		}
 	}

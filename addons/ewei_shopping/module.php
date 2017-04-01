@@ -34,33 +34,6 @@ class Ewei_shoppingModule extends WeModule {
         return true;
     }
 
-    public function settingsDisplay($settings) {
-        global $_GPC, $_W;
-
-        if (checksubmit()) {
-            $cfg = array(
-                'noticeemail' => $_GPC['noticeemail'],
-                'mobile' => $_GPC['mobile'],
-                'shopname' => $_GPC['shopname'],
-	            'template' => $_GPC['template'],
-	            'templateid' => $_GPC['templateid'],
-                'address' => $_GPC['address'],
-                'phone' => $_GPC['phone'],
-                'officialweb' => $_GPC['officialweb'],
-                'status' => intval($_GPC['status']),
-                'description'=>  $_GPC['description']
-            );
-	        $cfg['description'] = preg_replace('/&lt;img\s.*?style=&quot;.*?&quot;.*?/', '<img style="width: 100%"', $cfg['description']);
-	        $cfg['description'] = htmlspecialchars_decode($cfg['description']);
-            if (!empty($_GPC['logo'])) {
-                $cfg['logo'] = $_GPC['logo'];
-            }
-            if ($this->saveSettings($cfg)) {
-                message('保存成功', 'refresh');
-            }
-        }
-        load()->func('tpl');
-		include $this->template('setting');
-    }
+    public function settingsDisplay($settings) {message('请升级系统到最新版本');}
 
 }

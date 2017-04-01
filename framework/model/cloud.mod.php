@@ -23,7 +23,7 @@ function cloud_prepare() {
 	global $_W;
 	setting_load();
 	if(empty($_W['setting']['site']['key']) || empty($_W['setting']['site']['token'])) {
-		return error('-1', "您的站点只有在无妄云服务平台成功注册后，才能使用云服务的相应功能。");
+		return error('-1', "您的站点只有在微擎云服务平台成功注册后，才能使用云服务的相应功能。");
 	}
 	
 	return true;
@@ -258,7 +258,7 @@ function cloud_sms_send($mobile, $content, $postdata = array()) {
 	
 	$sign = $config['signature'];
 	if(empty($sign)) {
-		$sign = '涛盛无妄团队';
+		$sign = '涛盛微擎团队';
 	}
 	$pars = _cloud_build_params();
 	$pars['method'] = 'sms.sendnew';
@@ -446,7 +446,7 @@ function _cloud_shipping_parse($dat, $file) {
 		return error(-1, '更新操作太频繁，请稍后再试！');
 	}
 	if ($dat['content'] == 'blacklist') {
-		return error(-1, '抱歉，您的站点已被列入云服务黑名单，云服务一切业务已被禁止，请联系无妄客服！');
+		return error(-1, '抱歉，您的站点已被列入云服务黑名单，云服务一切业务已被禁止，请联系微擎客服！');
 	}
 	if (strlen($dat['content']) != 32) {
 		return error(-1, '云服务平台向您的服务器传输数据过程中出现错误, 这个错误可能是由于您的通信密钥和云服务不一致, 请尝试诊断云服务参数(重置站点ID和通信密钥). 传输原始数据:' . $dat['meta']);
@@ -571,7 +571,7 @@ function _cloud_cron_parse($result) {
 		return error(-1, '没有接收到服务器的传输的数据');
 	}
 	if ($result['content'] == 'blacklist') {
-		return error(-1, '抱歉，您的站点已被列入云服务黑名单，云服务一切业务已被禁止，请联系无妄客服！');
+		return error(-1, '抱歉，您的站点已被列入云服务黑名单，云服务一切业务已被禁止，请联系微擎客服！');
 	}
 	$result = json_decode($result['content'], true);
 	if (null === $result) {
