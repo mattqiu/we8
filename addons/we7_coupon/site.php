@@ -4059,14 +4059,14 @@ class We7_couponModuleSite extends WeModuleSite {
 		$op = trim($_GPC['op']) ? trim($_GPC['op']) : 'display';
 		$activity_type = trim($_GPC['activity_type']) ? trim($_GPC['activity_type']) : 'coupon';
 		$we7_coupon_info = module_fetch('we7_coupon');
-		message("we7_coupon_info".serialize($we7_coupon_info['config']));
+		message("we7_coupon_info".serialize($we7_coupon_info));
 		$we7_coupon_settings = $we7_coupon_info['config'];
 		if ($activity_type == 'coupon') {
 			//兑换列表
 			if($op == 'display') {
-				if ($we7_coupon_settings['exchange_enable'] != '1') {
-					message('未开启兑换功能');
-				}
+				// if ($we7_coupon_settings['exchange_enable'] != '1') {
+				// 	message('未开启兑换功能');
+				// }
 				$user = mc_fetch($_W['member']['uid'], array('groupid'));
 				$fan = pdo_get('mc_mapping_fans', array('uniacid' => $_W['uniacid'], 'uid' => $_W['member']['uid']));
 				$groupid = $user['groupid'];
@@ -4112,9 +4112,9 @@ class We7_couponModuleSite extends WeModuleSite {
 			}
 			//兑换过程
 			if($op == 'exchange') {
-				if ($we7_coupon_settings['exchange_enable'] != '1') {
-					message(error(-1, '未开启兑换功能'), '', 'ajax');
-				}
+				// if ($we7_coupon_settings['exchange_enable'] != '1') {
+				// 	message(error(-1, '未开启兑换功能'), '', 'ajax');
+				// }
 				$id = intval($_GPC['id']);
 				$activity_exchange = pdo_get('activity_exchange', array('extra' => $id));
 				$credit = mc_credit_fetch($_W['member']['uid'], array($activity_exchange['credittype']));
@@ -4230,9 +4230,9 @@ class We7_couponModuleSite extends WeModuleSite {
 			$profile = mc_fetch($_W['member']['uid']);
 			//真实物品列表
 			if($op == 'display') {
-				if ($we7_coupon_settings['exchange_enable'] != '1') {
-					message('未开启兑换功能');
-				}
+				// if ($we7_coupon_settings['exchange_enable'] != '1') {
+				// 	message('未开启兑换功能');
+				// }
 				$lists = pdo_fetchall('SELECT id,title,extra,thumb,type,credittype,endtime,description,credit FROM ' . tablename('activity_exchange') . ' WHERE uniacid = :uniacid AND type = :type AND endtime > :endtime AND status = 1 ORDER BY endtime ASC ', array(':uniacid' => $_W['uniacid'], ':type' => 3, ':endtime' => TIMESTAMP));
 				foreach($lists as &$li) {
 					$li['extra'] = iunserializer($li['extra']);
@@ -4243,9 +4243,9 @@ class We7_couponModuleSite extends WeModuleSite {
 			}
 			//兑换过程
 			if($op == 'post') {
-				if ($we7_coupon_settings['exchange_enable'] != '1') {
-					message(error(-1, '未开启兑换功能'), '', 'ajax');
-				}
+				// if ($we7_coupon_settings['exchange_enable'] != '1') {
+				// 	message(error(-1, '未开启兑换功能'), '', 'ajax');
+				// }
 				$id = intval($_GPC['id']); 
 				$shipping_data = array(
 					'name' => trim($_GPC['username']),

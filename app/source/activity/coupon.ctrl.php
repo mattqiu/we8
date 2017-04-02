@@ -13,7 +13,7 @@ activity_coupon_type_init();
 $colors = activity_coupon_colors();
 //兑换列表
 if($do == 'display') {
-	message($unisettings['exchange_enable']);
+	// message($unisettings['exchange_enable']);
 	if ($unisettings['exchange_enable'] != '1') {
 		message('未开启兑换功能');
 	}
