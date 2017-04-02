@@ -897,7 +897,7 @@ function postmain() {
                 "seat_type": $("input:radio[name='seat_type']:checked").val(), "remark": $("#remark").val(), "data": data, "carports": $("#carports").val(), "address":address
             },
             success: function (data) {
-                alert(data.toString());
+                alert(JSON.stringify(data));
                 if (data.message['code'] != 0) {
                     var url = "{php echo $this->createMobileUrl('pay', array(), true)}"+"&orderid="+data.message['orderid'];
                     location.href = url;
