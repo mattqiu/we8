@@ -3239,13 +3239,13 @@ DESC");
         	$target1 = $_W['siteroot']."framework/model/sendsms/sendmsg.php";
         
 		$setting = pdo_fetch("SELECT * FROM " . tablename($this->table_setting) . " WHERE weid = :weid", array(':weid' => $_W['uniacid']));
-		$row = pdo_fetchcolumn("SELECT `msg` FROM ".tablename('uni_settings') . " WHERE uniacid = :uniacid", array(':uniacid' => $_W['uniacid']));
-		$msg = iunserializer($row);
+		// $row = pdo_fetchcolumn("SELECT `msg` FROM ".tablename('uni_settings') . " WHERE uniacid = :uniacid", array(':uniacid' => $_W['uniacid']));
+		// $msg = iunserializer($row);
                 
-                $post_data1 = "appkey=" . $msg['appkey'] . "&secret=" . $msg['secret'] . "&qianming=" . $msg['qianming'] . "&moban=" . $setting['sms_id']."&phone=".$setting['sms_mobile']."&phonenum=".$data['tel']."&name=".$data['username'];
-                if($setting['sms_enable'=='1']){
-                $result1 = ihttp_request($target1, $post_data1);
-				}
+                // $post_data1 = "appkey=" . $msg['appkey'] . "&secret=" . $msg['secret'] . "&qianming=" . $msg['qianming'] . "&moban=" . $setting['sms_id']."&phone=".$setting['sms_mobile']."&phonenum=".$data['tel']."&name=".$data['username'];
+                // if($setting['sms_enable'=='1']){
+                // $result1 = ihttp_request($target1, $post_data1);
+				// }
 
         $prints = pdo_fetchall("SELECT * FROM " . tablename($this->table_print_setting) . " WHERE storeid = :storeid AND print_status=1", array(':storeid' => $storeid));
         foreach ($prints as $key => $value) {
@@ -3265,20 +3265,20 @@ DESC");
         }
 
         //保存新订单商品
-        foreach ($cart as $row) {
-            if (empty($row) || empty($row['total']) || $rtype == 1) {
-                continue;
-            }
-            pdo_insert($this->table_order_goods, array(
-                'weid' => $_W['uniacid'],
-                'storeid' => $row['storeid'],
-                'goodsid' => $row['goodsid'],
-                'orderid' => $orderid,
-                'price' => $row['price'],
-                'total' => $row['total'],
-                'dateline' => TIMESTAMP,
-            ));
-        }
+        // foreach ($cart as $row) {
+        //     if (empty($row) || empty($row['total']) || $rtype == 1) {
+        //         continue;
+        //     }
+        //     pdo_insert($this->table_order_goods, array(
+        //         'weid' => $_W['uniacid'],
+        //         'storeid' => $row['storeid'],
+        //         'goodsid' => $row['goodsid'],
+        //         'orderid' => $orderid,
+        //         'price' => $row['price'],
+        //         'total' => $row['total'],
+        //         'dateline' => TIMESTAMP,
+        //     ));
+        // }
         if ($rtype != 1) {
             pdo_delete($this->table_cart, array('weid' => $weid, 'from_user' => $from_user, 'storeid' => $storeid));
         }
