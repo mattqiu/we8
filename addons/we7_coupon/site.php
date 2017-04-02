@@ -4059,7 +4059,7 @@ class We7_couponModuleSite extends WeModuleSite {
 		$op = trim($_GPC['op']) ? trim($_GPC['op']) : 'display';
 		$activity_type = trim($_GPC['activity_type']) ? trim($_GPC['activity_type']) : 'coupon';
 		$we7_coupon_info = module_fetch('we7_coupon');
-		message("we7_coupon_info".serialize($we7_coupon_info));
+		message("we7_coupon_info".serialize($we7_coupon_info['config']));
 		$we7_coupon_settings = $we7_coupon_info['config'];
 		if ($activity_type == 'coupon') {
 			//兑换列表
