@@ -475,7 +475,7 @@ function pagination($total, $pageIndex, $pageSize = 15, $url = '', $context = ar
 	$pdata['pindex'] = $cindex > 1 ? $cindex - 1 : 1;
 	$pdata['nindex'] = $cindex < $pdata['tpage'] ? $cindex + 1 : $pdata['tpage'];
 	$pdata['lindex'] = $pdata['tpage'];
-
+	
 	if ($context['isajax']) {
 		if (empty($url)) {
 			$url = $_W['script_name'] . '?' . http_build_query($_GET);
@@ -543,6 +543,7 @@ function pagination($total, $pageIndex, $pageSize = 15, $url = '', $context = ar
 		$html .= "<li><a {$pdata['laa']} class=\"pager-nav\">尾页</a></li>";
 	}
 	$html .= '</ul></div>';
+
 	return $html;
 }
 

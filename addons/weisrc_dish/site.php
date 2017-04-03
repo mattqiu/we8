@@ -4763,6 +4763,7 @@ print_usr=:print_usr) AND storeid = :storeid {$condition} ORDER BY id DESC limit
         $shoptype = pdo_fetchall("SELECT * FROM " . tablename($this->table_type) . " where weid = :weid ORDER BY displayorder DESC", array(':weid' => $weid));
 
         $operation = !empty($_GPC['op']) ? $_GPC['op'] : 'display';
+
         if ($operation == 'setting') {
             if (checksubmit('submit')) {
                 $cfg['weisrc_dish']['storecount'] = trim($_GPC['storecount']);
@@ -4774,7 +4775,10 @@ print_usr=:print_usr) AND storeid = :storeid {$condition} ORDER BY id DESC limit
             $areaid = intval($_GPC['areaid']);
             $keyword = trim($_GPC['keyword']);
 
+            // message('_GPC'.serialize($_GPC));
+
             if (checksubmit('submit')) { //排序
+
                 if (is_array($_GPC['displayorder'])) {
                     foreach ($_GPC['displayorder'] as $id => $val) {
                         $data = array('displayorder' => intval($_GPC['displayorder'][$id]));
@@ -4801,8 +4805,15 @@ print_usr=:print_usr) AND storeid = :storeid {$condition} ORDER BY id DESC limit
             }
 
             $storeslist = pdo_fetchall("SELECT * FROM " . tablename($this->table_stores) . " {$where} order by displayorder desc,id desc LIMIT " . ($pindex - 1) * $psize . ",{$psize}");
+
+            // message('storeslist'.serialize($storeslist));
+
+
             if (!empty($storeslist)) {
                 $total = pdo_fetchcolumn("SELECT COUNT(*) FROM " . tablename($this->table_stores) . " $where");
+
+                // message('storeslist'.serialize($total));
+                
                 $pager = pagination($total, $pindex, $psize);
             }
         } elseif ($operation == 'post') {
