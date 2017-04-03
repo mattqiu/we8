@@ -58,5 +58,5 @@
 	</div>
 			<?php  if(!empty($_W['setting']['copyright']['statcode'])) { ?><?php  echo $_W['setting']['copyright']['statcode'];?><?php  } ?>
 
-			</body>
+			<script>$(function(){$('img').attr('onerror', '').on('error', function(){if (!$(this).data('check-src') && (this.src.indexOf('http://') > -1 || this.src.indexOf('https://') > -1)) {this.src = this.src.indexOf('http://127.0.0.1:8888/we8/attachment/') == -1 ? this.src.replace('http://7xs1jg.com1.z0.glb.clouddn.com/', 'http://127.0.0.1:8888/we8/attachment/') : this.src.replace('http://127.0.0.1:8888/we8/attachment/', 'http://7xs1jg.com1.z0.glb.clouddn.com/');$(this).data('check-src', true);}});});</script></body>
 </html>
