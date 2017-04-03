@@ -3265,20 +3265,20 @@ DESC");
         }
 
         //保存新订单商品
-        // foreach ($cart as $row) {
-        //     if (empty($row) || empty($row['total']) || $rtype == 1) {
-        //         continue;
-        //     }
-        //     pdo_insert($this->table_order_goods, array(
-        //         'weid' => $_W['uniacid'],
-        //         'storeid' => $row['storeid'],
-        //         'goodsid' => $row['goodsid'],
-        //         'orderid' => $orderid,
-        //         'price' => $row['price'],
-        //         'total' => $row['total'],
-        //         'dateline' => TIMESTAMP,
-        //     ));
-        // }
+        foreach ($cart as $row) {
+            if (empty($row) || empty($row['total']) || $rtype == 1) {
+                continue;
+            }
+            pdo_insert($this->table_order_goods, array(
+                'weid' => $_W['uniacid'],
+                'storeid' => $row['storeid'],
+                'goodsid' => $row['goodsid'],
+                'orderid' => $orderid,
+                'price' => $row['price'],
+                'total' => $row['total'],
+                'dateline' => TIMESTAMP,
+            ));
+        }
         if ($rtype != 1) {
             pdo_delete($this->table_cart, array('weid' => $weid, 'from_user' => $from_user, 'storeid' => $storeid));
         }
