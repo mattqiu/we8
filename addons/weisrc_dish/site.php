@@ -3304,6 +3304,7 @@ DESC");
         $params['title'] = $_W['account']['name'];
         $params['ordersn'] = $order['ordersn'];
         $params['virtual'] = false;
+        message("su");
         include $this->template('pay');
     }
 
