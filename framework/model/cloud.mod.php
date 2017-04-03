@@ -442,9 +442,6 @@ function _cloud_shipping_parse($dat, $file) {
 	if ($dat['content'] == 'patching') {
 		return error(-1, '补丁程序正在更新中，请稍后再试！');
 	}
-	if ($dat['content'] == 'frequent') {
-		return error(-1, '更新操作太频繁，请稍后再试！');
-	}
 	if ($dat['content'] == 'blacklist') {
 		return error(-1, '抱歉，您的站点已被列入云服务黑名单，云服务一切业务已被禁止，请联系微擎客服！');
 	}
